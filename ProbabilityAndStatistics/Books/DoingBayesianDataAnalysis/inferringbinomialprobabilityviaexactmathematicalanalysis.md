@@ -1,0 +1,3 @@
+# Inferring a Binomial Probability via Exact Mathematical Analysis
+
+

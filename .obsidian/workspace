@@ -1,0 +1,100 @@
+{
+  "main": {
+    "id": "260b8fa75492844d",
+    "type": "split",
+    "children": [
+      {
+        "id": "a65e07a38e3ce14c",
+        "type": "leaf",
+        "active": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Mathematics/RealAnalysis/continuity.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cd2e1ca167015ad1",
+    "type": "split",
+    "children": [
+      {
+        "id": "4af6cdb2da99a0aa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "db2047b74a654a81",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "aff304f017dcb2ea",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a435b3d0f12102e6",
+    "type": "split",
+    "children": [
+      {
+        "id": "c26620b267ce9e74",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "14f0d8daca672348",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Mathematics/RealAnalysis/continuity.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "lastOpenFiles": [
+    "Mathematics/RealAnalysis/continuity.md",
+    "Mathematics/RealAnalysis/realAnalysisIndex.md",
+    "Gre/Vocabulary/vocabulary.md",
+    "Vocabulary.md",
+    "ComplexAnalysisFlashcards.md",
+    "ODEPDEFlashcards.md",
+    "TopologyFlashcards.md",
+    "Topology.md",
+    "Flashcards.md",
+    "Mathematics.md"
+  ]
+}
