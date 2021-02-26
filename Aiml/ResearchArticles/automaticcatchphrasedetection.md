@@ -87,4 +87,43 @@
 							   
  where $t_i$ is the $ith$ unigram in the catchphrase $c$ and $Freq(t_i, d)$ is the frequency of $t_i$ in $d$.
  
- 
+#### MyScore
+
+* Unsupervised method for ranking sentences containing catchphrases in legal documents.
+*  Combination of TF-IDF, TF and a new score named NOccur.
+* In NOccur, important sentences are marked within a document. The words that appear in these sentences are weighed higher than the remaining words.
+
+### Proposed Scoring Method
+
+* The proposed method aims at **estimating the importance of a term specifically in the legal domain relative to a non-legal domain**.
+
+* To represent the non-legal domain, the work uses a collection of documents from the **20 Newsgroup dataset** comprising of 18000 newsgroup posts of 20 different topics.
+
+* For each term $t$, its importance in a domain $C$ is calculated as:
+
+						 CF(t,C)
+	Importance(t, C) = -----------
+						DF(t,C) + 1
+
+ where CF(t,C) is the frequency of $t$ in the corpus $C$ and DF(t,C) is the document frequency in $C$.
+* Terms that are more important in the legal domain and less important in the non-legal domain are given a higher score. The scoring function is:
+	
+							 Importance(t, C_l)
+	Score(t, C_l, C_nl) = ------------------------
+						   Importance(t, C_nl) + 1
+						   
+where $C_l$ is the legal domain corpus and $C_nl$ is the non-legal domain corpus. If a term is not available in a corpus, its Importance value is given as zero.
+
+* Having assigned scores to terms, the score for candidate phrases is calculated as:
+	
+	PS(c, C_l, C_nl) = log [ sum_(1 to |c|) Score(t_1, C_l, C_nl)] . KLI(c, d)
+	
+* The KLI term gives the specificity of the catchphrase in a legal document while the log term gives the specificity of the term in the legal domain.
+
+* Additional importance can be given to candidate phrases that contain a legal phrase. A large dictionary of legal terms is utilized for this and the scoring is given by:
+	
+													  | MaxMATCH(p,c) |
+	PSLegal(c, C_l, C_nl) = PS(c, C_l, C_nl)( 1 + -----------------------
+															| c |
+
+ where MaxMatch gives the maximum match the phrase $c$ has with any legal phrase $p$ in the legal dictionary.
