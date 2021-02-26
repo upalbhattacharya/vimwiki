@@ -8,3 +8,4 @@
 6. [SSD: Single Shot MultiBox Detector, 2015](ssd)
 7. [Unsupervised Dense Shape Correspondence using Heat Kernels, 2020](unsuperviseddenseshapecorrespondenceusingheatkernels)
 8. [Hier-SPCNet: A Legal Statute Hierarchy-based Heterogeneous Network for Computing Legal Case Document Similarity](hierspcnet)
+9. [Automatic Catchphrase Identification from Legal Court Case Documents](automaticcatchphrasedetection)
