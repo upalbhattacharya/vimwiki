@@ -1,5 +1,6 @@
 # AI/ML
 
-1. [Programming Concepts and Tutorials](ProgrammingAndTutorials/programmingAndTutorialsIndex)
-2. [Concepts](Concepts/conceptsIndex)
-3. [Research Articles](ResearchArticles/researchArticlesIndex)
+1. [Textbooks](Textbooks/textbooksIndex)
+3. [Programming Concepts and Tutorials](ProgrammingAndTutorials/programmingAndTutorialsIndex)
+4. [Concepts](Concepts/conceptsIndex)
+5. [Research Articles](ResearchArticles/researchArticlesIndex)
