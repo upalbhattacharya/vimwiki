@@ -49,6 +49,7 @@
 ## Recurrent Neural Networks
 
 * Important design patterns for RNNS:
+	
 	* RNNs that produce an output at each time step and have recurrent connections between hidden units.
 	
 	* RNNS that produce an output at each time step and have recurrent connections but only from the output at one time step to the hidden unit at the next time step.
@@ -84,9 +85,13 @@
 where $log p_model(y^(t) | x^(1), ... , x^(t)})$ is given by reading the entry for $y^(t)$ from the output vector $y_pred^(t)$.
 
 * The **gradient computation** of the loss function with respect to the parameters is an **expensive operation**:
+	
 	* it involves an entire forward pass through the unrolled graph followed by a back propagation pass. 
+	  
 	* The **runtime** is $O(tau)$ and cannot be reduced by parallelization due to the sequential nature.
+	
 	* The **memory cost** is also $O(tau)$ as tall the forward pass states need to be stored for the back propagation step.
+	 
 	* The back-propagation algorithm applied to the unrolled graph is called **back-propagation through time**.
 
 ### Teacher Forcing and Networks with Output Recurrence
@@ -95,22 +100,30 @@ where $log p_model(y^(t) | x^(1), ... , x^(t)})$ is given by reading the entry f
 
 * The **advantage** od eliminating hiiden-to-hidden recurrence is that for any loss function based on comparison of the output at time $t$ with the training target at time $t$, **all the time steps are decoupled**.
 	* Training can be parallelized with the gradient at each step $t$ computed in isolation.
+	
 	* There is **no need to compute the output for the previous time step first** as the **training set provides the ideal value of the output**.
 
 * Models with **output-to-hidden** connections can be trained with **teacher forcing**.
+
 	* Teacher training arises from the maximum likelihood criterion in which the model receives the ground truth output $y^(t)$ as input at time $t+1$ during training.
+	
 	* During training, rather than feeding the model's own output back into itself, the connections should befed with the target values that specify what the correct output should be.
+	
 	* Originally motivated for avoiding back-propagation through time in models that lack hidden-to-hidden connections.
+	
 	* The **disadvantage** of teacher training arises if the network is used later in a closed loop mode where the network outputs are fed back as input.
+	
 		* The difference in the nature of the inputs that the network sees at training time vs. testing time could create problems.
+		
 		* This is mitigated by training the system with both free-training as well as teacher forcing so that it learns to account for the input conditions not seen during training.
+		
 		* Randomly using target inputs or the network outputs as inputs is another way to deal with the problem.
 
 ### Computing the Gradient in a Recurrent Network
 
 * Computed in exactly the same manner as the gradients for a regular neural network. See the textbook pages 379-380 for the equations.
 
-### Recurrent Networks as Directed Graphnical Models
+### Recurrent Networks as Directed Graphical Models
 
 * The effect of the previous outputs on the future can be reduced from the entire sequence of outputs to only a certain length of look-back by assuming that the chain is Markovian.
 
@@ -122,11 +135,83 @@ where $log p_model(y^(t) | x^(1), ... , x^(t)})$ is given by reading the entry f
 
 #### Drawing samples from a model
 
-* The main operation to be performed is to sample from the conditional distribution at each time step. However, the length of the sequence needs to be determined. This can be done in several ways:
+* The main operation to be performed is to **sample from the conditional distribution** at each time step. However, the length of the sequence needs to be determined. This can be done in several ways:
+	
 	* When the output is a **symbol taken from a vocabulary**, a **special symbol corresponding to the end of the sequence** can be added. The sampling process is stopped when the stop symbol is generated.
+
 	* An **extra Bernoulli output** can be introduced to the model representing the decision to either continue generation or halt generation. It is more general than the previous method as it can be applied to any RNN model. The extra output unit is **usually trained with cross-entropy loss**. The sigmoid is trained to maximize the log-probability of the correct prediction as the whether the sequence ends or continues at each time step.
+
 	* The sequence length $tau$ can be determined by **adding an extra ouput to the model that predicts the integet $tau$ itself**. An extra input is added to the recurrent update at each time step so that the recurrent update is aware of the distance from the end of the sequence. It is based on the decomposition:
 		
 		$P(x^(1), x^(2), ... , x^(tau)) = P(tau) P(x^(1), x^(2), ... , x^(tau) | tau)$
 		
+### Modeling Sequences Conditioned on Context with RNNs
+
+* Instead of taking a sequence of vectors $x^(t)$ as input, RNNs can also be designed in a manner that they take a single fixed-size vector $x$ as input.
+	
+	* The fixed-size vector can be made as an extra input of the RNN that generates the $y$ sequence. This extra input can be provided in one of the following ways:
 		
+		* As an **extra input** at **each time step**.
+		
+		* As the initial state $h^(0)$
+		
+		* Both
+	
+	* **As an extra input at each time step**:
+		
+		* this is the most common approach. 
+		  
+		* The interaction between the input $x$ and each hidden unit vector $h^(t)$ is parameterized by a weight matrix $R$.
+		
+		* The same product $x^T R$ is added as an additional input to each hidden unit.
+		
+		* The value $x^T R$ can be thought of as effectively a new bias parameter for each hidden unit.
+	
+	* Instead of using a single vector, a sequence of values $x^(1), x^(2), ... x^(tau)$ can be used which corresponds to a conditional distribution $P(y^(1), y^(2), ... , y^(tau) | x^(1), x^(2), ... , x^(tau))$ that makes a conditional independence assumption that the distribution factorizes as:
+		___
+		| | P(y^(t) | x^(1), x^(2), ... , x^(t))
+		 t
+	 The conditional independence assumption can be removed by adding connection from the output at time $t$ to the hidden unit at time $t+1$.
+		 
+		 * This model can then represent arbitrary probability distributions over the $y$ sequence.
+		 
+		 * This model has the **restriction** that the length of the sequence $x$ and $y$ must be the same.
+	 
+### Bidirectional RNNs
+
+* Bidirectional RNNS were developed for applications in which the prediction at a time point depends **on the whole sequence** and **not just the past values of the sequence**.
+
+* Bidirectional RNNs combine an RNN that moves forward through time beginning from the start of the sequence, and another RNN that moves backward through time beginning at the end of the sequence.
+
+* If $h^(t)$ represents the forward moving sub-RNN's hidden layer and $g^(t)$ represents the backward-moving sub-RNN's hidden layer,  the output $o^(t)$ is computed using a combination of the outputs from both $h^(t)$ and $g^(t)$ allowing the output unit to compute a representation that depends on both the past and the future and is **most sensitive to the closest neigbhours** without having to specify a fixed window.
+
+* The bidirectional RNN idea can also be applied to two-dimensional/spatial input.
+
+### Encoder-Decoder Sequence-to-Sequence Architectures
+
+* Used for applications where the **input sequence** and the **output sequence** are **not of the same length**.
+
+* The input to the RNN is known as the "context". The goal is to produce a representation of this context. The context might be a vector or a sequence of vectors that summarize the input sequence.
+
+* Basic methodology:
+	
+	* An **encoder** or **reader** or **input** RNN processes the input sequence. It emits the context $C$ usually as a simple function of its final hidden state.
+	
+	* A **decoder** or **writer** or **output** RNN is conditioned on the fixed-length vector generated by the encoder to generate the output sequence Y.
+
+* In a sequence-to-sequence architecture, the encoder and decoder RNNS are **trained jointly** to maximize the average log likelihood i.e. $log P(y^(1), ... y^n_y|x^1, ... , x^n_x)$ over **all pairs of x and y sequences in the training set**.
+
+### Deep Recurrent Networks
+
+* Each RNN consists of blocks that represent the following transformations:
+	* input to the hidden state
+	* one hidden state to the next hidden state
+	* thidden state to the output
+  These are represented by one weight matrix each in a standard RNN.
+  
+* Adding more depth to each of the blocks would be advantageous.
+
+* **Decomposing the RNN structure** into multiple layers can be advantageous.
+	* The lower layers in the hierarchy of the decomposed structure can be thought of as playing a role in transforming the raw input into a representation that is more appropriate at the higher levels of the hidden state. 
+	
+* Separate MLPs can be added for each of the block operations but this makes optimization difficult. This can be mitigated by introducing skip connections in the hidden-to-hidden path.
