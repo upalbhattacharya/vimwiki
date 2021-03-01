@@ -215,3 +215,51 @@ where $log p_model(y^(t) | x^(1), ... , x^(t)})$ is given by reading the entry f
 	* The lower layers in the hierarchy of the decomposed structure can be thought of as playing a role in transforming the raw input into a representation that is more appropriate at the higher levels of the hidden state. 
 	
 * Separate MLPs can be added for each of the block operations but this makes optimization difficult. This can be mitigated by introducing skip connections in the hidden-to-hidden path.
+
+### The Challenge of Long-Term Dependencies
+
+* The basic problem is that gradients propagated over many stages tend to either vanish(most of the time) or explode(rarely).
+
+* The difficulty with long-term dependencies arises from the exponentially smaller weights given to long-tem interactions compared to short-term ones.
+
+* As a simplification, the recurrence relation can be thought of as:
+	
+	$ h^(t) = W^T h^(t-1)$
+  
+  Thus, on simplification, this yields,
+	
+	 $h^(t) = (W^t)^T h^(0)$
+	
+  Assuming an eigendecomposition of W of the form:
+  
+	 $W = QDQ^T$
+	 
+  Simplifies the recurrence relation further to:
+  
+	 $ h^(t) = Q^T D^t Q h^(0)$
+	 
+  As the eigenvalues are raised to the power $t$, eigenvalues with magnitude less than one decay to zero and eigenvalues with magnitude greater than one explode. **Any component of h^(0) that does not align with the largest eigenvector will eventually be discarded.**
+  
+* This problem is particular to the case of recurrent networks where the same weight is multiplied at each time step causing explosion of vanishing. If each multiplicand at each time step were different, the situation would be different.
+
+* Whenever a model is able to represent long-term dependencies, the gradient of a long-term interaction has exponentially smaller magnitude than the gradient of a short-term interaction. This means that it takes a long time to learn long-term dependencies because these dependencies will tend to be hidden by the smallest fluctuations arising from short term dependencies.
+
+* Increasing the span of the dependencies that need to be captured makes gradient-based optimization increasingly difficult with the probability of successfull training of a traditional RNN via SGD rapidly reaching 0 for sequences of only length 10 or 20.
+
+### Echo State Networks
+
+Pending
+
+### Leaky Units and Other Strategies for Multiple Time Scales
+
+* One way to deal with long-term dependencies is to design a model that operates at multiple time scales so that some parts of the model operate at fine-grained time scales and can handle small details while other parts operate at coarse time scales and transfer information from the distant past to the present more efficiently.
+
+#### Adding Skip Connections through Time
+
+* Skip connections introduce recurrent connections with a time delay of $d$ to mitigate the problem of vanishing and exploding gradients.
+
+* Skip connections with time delay $d$ cause the gradients to diminish exponentially as a function of $tau/d$ rather than $tau$.
+
+* Since there are both delayed and single step connections, gradients may still explode exponentially in $tau$.
+
+* This allows the learning algorithm to capture longer dependencies although not all long-term dependencies may be represented weill this way.
