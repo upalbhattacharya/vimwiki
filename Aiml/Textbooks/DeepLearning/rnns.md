@@ -263,3 +263,114 @@ Pending
 * Since there are both delayed and single step connections, gradients may still explode exponentially in $tau$.
 
 * This allows the learning algorithm to capture longer dependencies although not all long-term dependencies may be represented weill this way.
+
+#### Leaky Units and a Spectrum of Different Time Scales
+
+* Using linear self-connections with weights near one allows information remembrance of the past.
+
+* The moving average $u^(t)$ of a quantity $v^(t)$ given by:
+	
+	$ u^(t) <- a u^(t-1) + (1-a)v^(t)$
+	
+  acts as such a linear-self connection mechanism. When $a$ is close to one, the running average remembers information about the past for a long time and when $a$ is near zero, information about the past is rapidly discarded. Hidden units with linear self-connections can behave similarly to such running averages. 
+  
+* such hidden units are called **leaky units**.
+
+* The use of linear-self connections is a different method of ensuring that a unit has access to values from the past. It allows for the the effect to be adapted more smoothly and flexibly by adjusting the real-valued $a$ than skip connections.
+
+* The parameter $a$ can be made trainable or fixed.
+
+### The Long Short-Term Memory and Other Gated RNNs
+
+* Like leaky units, gated RNNs are based on the idea of creating paths through time that have derivatives that neither vanish nor explode. Leaky units do this with manually chosen connection weights. **Gated RNNs generalize this to connection weights that may change at each time step**.
+
+* Leaky units accumulate information over a long duration. However, it may be of use to forget the old information once it has been used. **Instead of manually deciding when to clear the state, gated RNNs work on the principle of allowing the neural network to learn when to do it**.
+
+#### LSTM
+
+* Introduces **self-loops to produce paths where the gradient can flow for long durations**.
+
+* The weight on the self-loop is conditioned on context rather than fixed.
+
+* Making the **weight of the self-loop gated** allows for the **time-scale of integration to be changed dynamically**.
+
+* Instead of a unit that simply applies an element-wise nonlinearity to the affine transformation of inputs and recurrent units, LSTM networks have LSTM cells that have an internal recurrence.
+
+* Each internal cell has the same inputs and outputs as an ordinary RNN cell but:
+	
+	* Has more parameters.
+	* A system of gating units that controls the flow of information.
+
+##### Units of LSTM
+
+* **State unit**: s_i^(t)
+	
+	* It has a linear self-loop similar to leaky units.
+	* The self loop allows to control the amount of past information to be retained and amount of external new information to be added.
+	* The weightage for the self-loop is controlled by a **forget gate unit**.
+	* The weightage of new external information input is controlled by an **external input gate**.
+	
+													  ___				___	
+	s_i^(t) = f_i^(t) s_i^(t-1) + g_i^(t) sigma(b_i + \  U_ij x_j^(t) + \   W_ij h_j^(t-1))
+													  /__				/__
+													   j				 j  
+
+* **Forget gate unit**: f_i^(t)
+
+	* Used to control the weightage of past information used in calculation of the present state.
+	* Uses a sigmoid unit which sets the weight value between 0 and 1 representing amount of previous state information to be retained.
+
+							___					 ___	
+	f_i^(t) = sigma(b_i^f + \   U_ij^f x_j^(t) + \   W_ij^f h_j^(t-1)) 
+							/__					 /__
+							 j					  j  
+							 
+* **External input gate unit**: g_i^(t)
+
+	* Controls the weightage of new information to be provided in computing the new state.
+
+							___					 ___	
+	g_i^(t) = sigma(b_i^g + \   U_ij^g x_j^(t) + \   W_ij^g h_j^(t-1)) 
+							/__					 /__
+							 j					  j  
+							 
+* **Output gate unit**: q_i^(t)
+
+	* The output $h_i(t)$ of the LSTM cell can be shut off via the output gate.
+
+	h_i^(t) = tanh(s_i^(t))q_i^(t)
+							___					 ___	
+	q_i^(t) = sigma(b_i^o + \   U_ij^o x_j^(t) + \   W_ij^o h_j^(t-1)) 
+							/__					 /__
+							 j					  j  
+ all parameters $b, U$ and $W$ are trainable and are the biases, input weights and the recurrent/hidden weights respectively.
+ 
+* The cell state $s_i^(t)$ can itself be used as an extra input for which an additional parameter would be required for the forget, external input and output gates.
+
+* LSTMs have been shown to learn long-term dependencies more easily than simple recurrent architectures.
+
+
+### Other Gated RNNs
+
+* Gated recurrent units aim to have the same fundamental functioning as an LSTM but by retaining the necessary architectural units of it. 
+  
+* It uses a **single gating unit** $u_i^(t)$ that simultaneously controls the forgetting and the decision to update the state unit.
+
+* It uses a **reset gate** $r_i^(t)$ that functions much like the output gate but is computed in the new unit rather than passed from the previous state explicitly.
+
+							___					 ___	
+	u_i^(t) = sigma(b_i^r + \   U_ij^u x_j^(t) + \   W_ij^u h_j^(t-1)) 
+							/__					 /__
+							 j					  j  
+							 
+							___					 ___	
+	r_i^(t) = sigma(b_i^r + \   U_ij^r x_j^(t) + \   W_ij^r h_j^(t-1)) 
+							/__					 /__
+						     j					  j	
+	
+														  ___				 ___	
+	h_i^(t) = u_i^(t) h_i^(t-1) + (1-u_i^(t))sigma(b_i^ + \   U_ij x_j^(t) + \   W_ij h_j^(t-1)) 
+														  /__				 /__
+														   j				  j	
+														   
+* The reset and update gates can individually ignore parts of the state vector.
