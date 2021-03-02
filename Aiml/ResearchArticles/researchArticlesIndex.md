@@ -9,3 +9,4 @@
 7. [Unsupervised Dense Shape Correspondence using Heat Kernels, 2020](unsuperviseddenseshapecorrespondenceusingheatkernels)
 8. [Hier-SPCNet: A Legal Statute Hierarchy-based Heterogeneous Network for Computing Legal Case Document Similarity](hierspcnet)
 9. [Automatic Catchphrase Identification from Legal Court Case Documents](automaticcatchphrasedetection)
+10. [Neural Machine Translation by Jointly Learning to Align and Translate, 2014](attention)
