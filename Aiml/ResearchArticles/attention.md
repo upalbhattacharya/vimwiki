@@ -62,7 +62,7 @@
 
 * $alpha_ij$ is the probability that the target word $y_i$ is aligned to or translated from a source word $x_j$. Then the i-th context vector $c_i$ is the expected annotation.
 
-* $ahlpha_ij$ and $e_ij$ reflect the importance of the annotation $h_j$ with respect to the previous hidden state $s_(i-1)$ in deciding $s_i$ and generating $y_i$
+* $alpha_ij$ and $e_ij$ reflect the importance of the annotation $h_j$ with respect to the previous hidden state $s_(i-1)$ in deciding $s_i$ and generating $y_i$
 
 ### Encoder: Bidirectional RNN for Annotating Sequences
 
