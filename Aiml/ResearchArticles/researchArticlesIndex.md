@@ -11,3 +11,4 @@
 9. [Automatic Catchphrase Identification from Legal Court Case Documents](automaticcatchphrasedetection)
 10. [Neural Machine Translation by Jointly Learning to Align and Translate, 2014](attention)
 11. [Attention Is All You Need, 2017](transformers)
+12. [word2vec, doc2vec](embeddings)
