@@ -12,3 +12,4 @@
 10. [Neural Machine Translation by Jointly Learning to Align and Translate, 2014](attention)
 11. [Attention Is All You Need, 2017](transformers)
 12. [word2vec, doc2vec](embeddings)
+13. [node2vec: Scalable Feature Learning for Networks, 2016](node2vec) 
