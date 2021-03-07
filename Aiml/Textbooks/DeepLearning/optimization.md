@@ -151,6 +151,76 @@ After iteration $tau$, it is common to leave $epsilon$ constant.
 
 * The Adam optimization algorithm uses adaptive moments.
 
-* It can be viewed as a combination of RMSProp and Momentum.
+* It can be viewed as a combination of RMSProp and AdaGrad.
 
-* In Adam, momentum is incorporated directly as an estimate of the first-order moment of the the gradient
+* In Adam, momentum is incorporated directly as an estimate of the first-order moment of the the gradient.
+
+* The algorithm updates exponential moving averages of the gradient $m_t$ and the squared gradient $v_t$ where the hyperparameters $beta_1, beta_2 in [0, 1)$ control the exponential decay rates of these moving averages.
+
+* The moving averages themselves are biased estimates of the 1st moment i.e. the mean and the 2nd moment i.e. the uncentered variance of the gradient.
+
+* **The moving averages are initialized as vectors of 0s leading to moment estimates that are biased towards zero especially during the initial timesteps and especially when the decay rates are small**.
+
+* The biases can easily be counteracted leading to bias-corrected estimates $m_t$ and $v_t$.
+
+* The update equations are given by: 
+
+
+		  1	 __		  ___
+	g <- --- \/_theta \	  L(f(x^(i); theta), y^(i))
+		  m			  /__
+					   i
+					   
+	m_t <- beta_1 m_(t-1) + (1 - beta_1)g_t
+	
+	v_t <- beta_1 v_(t-1) + (1 - beta_1)g_t^2
+
+			   m_t
+	m_t <- ------------- (bias-corrected first moment estimate)
+		   1 - beta_1^2
+			   
+			   v_t
+	v_t <- ------------- (bias-corrected second moment estimate)
+		   1 - beta_2^2
+		  
+											m_t 
+	theta_t <- theta_(t-1) - epsilon -------------------
+									  sqrt(v_t + delta)
+									  
+	where $delta$ is for stability.
+	
+* **Bias Correction**:
+	* If $g_i$ is the gradient at step $i$ and $v_0$ is initialized as a vector of zeros, then the moving average can be re-written in the following way:
+	
+						 ___
+		v_t = (1-beta_2) \	 beta_2^(t-i) g_i^2
+						 /__
+						 
+	* Checking the relation between the expected value of $E(v_t)$ with $E(g_t^2)$,
+	
+	
+						     ___
+	   E(v_t) = E((1-beta_2) \	 beta_2^(t-i) g_i^2)
+						     /__
+			
+			  = E(g_t^2)(1-beta_2)
+			  
+	Thus, the initialization of the initial parameters $v_t$ and $m_t$ as a vector of zeros introduces a biasing of $1-beta_1$ and $1-beta_2$ respectively which is then corrected.
+	
+## Optimization Strategies and Meta-Algorithms
+
+### Batch Normalization
+
+* It is a method of adaptive reparameterization motivated by the difficulty of training very deep models.
+
+* Very deep models involved the composition of several functions or layers. The gradient defines the parameter updates based on the assumption that the other layers do not change. However, in reality, all layer parameters are updated simultaneously.
+
+* The simultaneous updation of the parameters can lead to unexpected results.
+
+* Batch normalization provides an elegant way of reparameterizing almost any deep network. It significantly reduces the problem of coordinating updates across many layers.
+
+* Batch normalization can be applied to any input or hidden layer in a network.
+
+* Batch normalization involves standardizing the values, column-wise by the column/feature mean and standard deviation.
+
+* Back propagation through the standardization operation ensures that the gradient will never propose and operation that simply acts to increase the standard deviation or mean of the hidden output.
