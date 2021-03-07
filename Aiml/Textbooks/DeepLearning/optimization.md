@@ -119,3 +119,38 @@ After iteration $tau$, it is common to leave $epsilon$ constant.
 	where g is the gradient and r is the gradient accumulation variable that is initially zero.
 	
 * The accumulation of squared gradients from the beginning of training can result in a premature and excessive decrease in the effective learning rate.
+
+### RMSProp
+
+* RMSProp modifies AdaGradd to perform better in the nonconvex setting by changing the gradient accumulation into an exponentially weighted moving average.
+
+* AdaGrad is designed to converge rapidly in a convex setting. When a nonconvex function is used for training, the learning trajectory may end up stuck in a locally convex bowl.
+
+* AdaGrad shrinks the learning rate according to the entire history of the squared gradient which makes the learning progress very slow.
+
+* RMSProp uses an exponentially decaying average to discard history from the extreme past so that it can converge rapidly after finding a convex bowl.
+
+* The update equations are given by:
+
+		  1	 __		  ___
+	g <- --- \/_theta \	  L(f(x^(i); theta), y^(i))
+		  m			  /__
+					   i
+					   
+	r <- rho r + (1 - rho) g*g
+
+				          epsilon
+	 Delta theta <- - ---------------- *g
+     			       delta + sqrt(r)
+				  
+	theta =  theta + Delta theta
+
+ where $rho$ is a decaying parameter.
+ 
+### Adam
+
+* The Adam optimization algorithm uses adaptive moments.
+
+* It can be viewed as a combination of RMSProp and Momentum.
+
+* In Adam, momentum is incorporated directly as an estimate of the first-order moment of the the gradient
