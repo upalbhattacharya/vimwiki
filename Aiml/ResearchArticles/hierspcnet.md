@@ -25,7 +25,7 @@
 * This work focuses on network-based approaches.
 * PCNet only captures citation from one case document to prior case documents.
 
-* To estimate similarit between legal documents, uses graph embedding algorithm **Metapath2vec** on Hier-SPCNet.
+* To estimate similarity between legal documents, uses graph embedding algorithm **Metapath2vec** on Hier-SPCNet.
 
 * The notion is that if two documents cite the same statute or different statutes/precedents that are structurally similar in the network then they may be discussing similar legal issues.
 
@@ -34,7 +34,7 @@
 * Existing network-based similarity methods construct a PCNet in which the vertices are case documents and there is directed edge $d1->d2$ if the document $d1$ cites document $d2$.
 
 * Existing similarity measures applied on PCNet are:
-	* **Bibliographic Coupling**: **Jaccard similarity index** betwenn the sets of precedent citations(out-citations) from the two documents who similarity is to be inferred.
+	* **Bibliographic Coupling**: **Jaccard similarity index** between the sets of precedent citations(out-citations) from the two documents who similarity is to be inferred.
 	* **Co-citation**: Similar to Bibliographic Coupling but uses in-citation.
 	* **Dispersion**: Measures to what extent the out-citation neighbours of two documents are themselves similar.
 

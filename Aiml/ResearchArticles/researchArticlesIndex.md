@@ -13,3 +13,5 @@
 11. [Attention Is All You Need, 2017](transformers)
 12. [word2vec, doc2vec](embeddings)
 13. [node2vec: Scalable Feature Learning for Networks, 2016](node2vec) 
+14. [Deep learning in law: early adaptation and legal word embeddings trained on large corpora, 2018](deeplearninginlawearlyadaptation)
+15. [Deep contextualized word representation, 2018](elmo)
