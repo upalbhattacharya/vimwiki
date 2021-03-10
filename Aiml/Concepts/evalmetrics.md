@@ -199,3 +199,18 @@ where $TP$ is a **true positive** i.e. a correct positive classification.
 which gives a measure of how many of the negative labels in a classification problem were incorrectly mapped as false positives.
 
 * The area under the ROC curve gives an idea about the ability of a model to distinguish the two classes.
+
+## Jaccard Index
+
+* It is an evaluation metric for classification models.
+
+* It can be defined as the intersection over the union between the predictions and the targets. In a binary classification problem, it is given as:
+						 
+						  TP	
+	Jaccard Index = -------------
+					 TP + FP + FN
+					 
+* In the multi-class setting, it has the following subtypes:
+	* **micro**
+	* **macro**
+	* **weighted**
