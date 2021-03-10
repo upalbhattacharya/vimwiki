@@ -4,5 +4,6 @@
 2. [Support vector Machines](svm)
 3. [K means clustering](kmeans)
 4. [K nearest neighbours](knn)
+5. [Evalutaion metrics](evalmetrics)
 
 
