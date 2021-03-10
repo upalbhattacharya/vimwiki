@@ -40,3 +40,15 @@ where the summation is taken over the number of children formed from the decisio
 * Thus, given a set of data points, at each node, a set of decision/attributes are considered and the one that gives the greatest information gain is used as the decision and the process continues in this manner till there are only leaf nodes that have entropy 0 indicating no impurity and that the data has been classified accurately.
 
 * In theoretical applications, the model continues till it consists of only leaf nodes. However, in practice, this may lead to overfitting and model with very high variance but low bias. To avoid this, practical implementations allow specifying the depth of the tree as well as the minimum number of data points that must be in a node as a result of a decision.
+
+# Random Forests
+
+* It is an ensemble learning method.
+* It is a bagging method.
+* While decision trees are good for classification, they can be sensitive to the input and the greedy nature can lead to problems and overfitting.
+* These issues are solved by decision trees.
+* Random forests are a bagging method where several decision trees are trained in parallel for the same task. At prediction time:
+	* for regression tasks, the outputs of each of the trees can be averaged.
+	* for classification tasks, a majority voting scheme can be used where the majority class outputted by each of the trees is used to select the class for the new data point.
+
+* It helps reduce variance problems faced by decision trees.
