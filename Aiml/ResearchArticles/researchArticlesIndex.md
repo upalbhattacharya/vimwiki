@@ -15,3 +15,4 @@
 13. [node2vec: Scalable Feature Learning for Networks, 2016](node2vec) 
 14. [Deep learning in law: early adaptation and legal word embeddings trained on large corpora, 2018](deeplearninginlawearlyadaptation)
 15. [Deep contextualized word representation, 2018](elmo)
+16. [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding, 2018](bert)
