@@ -16,11 +16,11 @@
 
 * If $w$ is the perpendicular and $u$ is the unknown vector then the criterion can be written as:
 
-	$w.c >= c$ where c is a constant
+	$w.u >= c$ where c is a constant
 	
 * $>=$ means that the point is a positive sample. Equivalent formulation:
 	
-	$w.c + b >=0 -> positive sample$
+	$w.u + b >=0 -> positive sample$
 	
 	the above is the **decision rule**.
 	

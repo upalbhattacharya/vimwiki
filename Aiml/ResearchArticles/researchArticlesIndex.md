@@ -16,3 +16,5 @@
 14. [Deep learning in law: early adaptation and legal word embeddings trained on large corpora, 2018](deeplearninginlawearlyadaptation)
 15. [Deep contextualized word representation, 2018](elmo)
 16. [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding, 2018](bert)
+17. [Improving Language Understanding by Generative Pre-Training, 2018](gpt1)
+18. [Doctor2Vec: Dynamic Representation Learning for Clinical Trial Recruitment, 2020](doctor2vec)
