@@ -90,7 +90,7 @@
 
 * Documents contain different forms of a word and families of derivationally related words with similar meanings. In many situations, it may be useful to return documents containing such related words to a word in the search query.
 
-* **The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form** **The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form***. However, they differ in their behaviour.
+* **The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form**. However, they differ in their behaviour.
 
 * **Stemming** is a crude heuristic process that **chops off the ends of words** in the hope of achieving this goal correctly most of the time and often includes removal of derivational affixes. 
 
@@ -106,3 +106,61 @@
 	* Many of the later rules use a concept of the **measure** of a word which loosely checks the number of syllables to see whether a word is long enough that it is reasonable to regard the matching portion of a rule as a suffix than as part of the stem of a word. An example is converting 'replacement' to 'replac' but retaining 'cement' as is.
 	
 * **Stemming increases recall while harming precision**.
+
+## Positional postings and phrase queries
+
+* Many complex or techical concepts as well as names are multiword compounds or phrases. Queries themselves can be phrases that have meaning in the whole that is separate from the meanings of the individual words constituting the query phrase such as "Stanford University" as opposed to "Stanford" and "University", the latter could be in reference to individuals of the name "Stanford" and any university.
+
+* To be able to support phrase/multiword queries, it is no longer sufficient for postings list to be simply lists of documents that contain individual terms.
+
+### Biword indexes
+
+* Biword indexes handles phrases by **considering every pair of consecutive terms in a document** as a phrase.
+
+* Each biword is treated as a vocabulary term. While two-word phrases can be processed immediately, longer phrases need to be broken down in order to be processed.
+
+* Among possible queries, **nouns and noun phrases** have a special status in describing the concepts people interested in searching for. 
+
+* However, related nouns can often be divided from each other by various function words. To properly incorporate these into the biword indexing model, the following procedure is used:
+	* **tokenize** the text and perform **part-of-speech-tagging**.
+	* **group terms** into nouns and proper nouns (N) and function words including articles and prepositions (X).
+	* Deem any string of terms of the form NX*N to be an **extended biword**.
+	* Any query using an extended biword is to be parsed in a similar manner into Ns and Xs and then segmented into extended biwords.
+	* More precise POS patterns can lead to better results.
+
+* The concept of biword index can be extended to longer sequences of words and in the case of variable length word sequences, is generally referred to as **phrase index**.
+
+* Searches for single words are not handled naturally in a biword index requiring an additional single word term index.
+
+* While longer phrase indexing can reduce false positives, storing longer sequences has the potential to greatly expand the vocabulary size. Even storage of an exhaustive biword dictionary greatly expands the vocabulary size and can be problematic.
+
+## Positional indexes
+
+* A biword index is not the standard solution.
+
+* A **positional index** is commonly employed in which, for each term of the vocabulary, a posting(i.e. for a particular document) is of the format:
+	 
+		docID: <position1, position2, ...>
+	
+	where each position is a token index in that document. Each posting usually also records the term frequency.
+	
+* Processing a phrase query still requires accessing the inverted index entries for each distinct term.
+
+* In the merge operation, the same general technique is used as before for a query with the exception being to check that the positions of appearence of the terms in the document are compatible with that in the query as opposed to simply checking for their existence in the document. The postional aspect of the check requires working out offsets between the words.
+
+* within-k-word proximity searches follow the same general method.
+
+* **Positonal indexes significantly expand the required postings storage**.
+* A rough estimate puts a postional index to be 2 to 4 times as large as a non-positional index
+
+## Combination schemes
+
+* The strategies of biword indexes and postional indexes can be fruitfully combined.
+
+* A combination strategy uses a phrase index for certain queries and positional indexes for other queries.
+
+* Commonly used phrases can easily be retained as phrase queries instead of constant recomputation through positional indexes that can be significantly more expensive.
+
+* Good queries to include in the phrase index are ones known to be common based on recent query behaviour.
+
+* The most expensive queries are ones where the individual words are common but the desired phrase is comparatively rare.
