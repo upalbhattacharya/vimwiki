@@ -23,3 +23,4 @@
 21. [Learning to Predict Charges of Legal Judgement via Self-Attentive Capsule Network, 2020](learningtopredictchargesoflegaljudgementselfattention)
 22. [BERT-PLI: Modeling Paragraph-Level Interactions for Legal Case Retrieval, 2020](bertpli)
 23. [Learning to Predict Charges for Criminal Cases with Legal Basis, 2017](chargepredwithlegalbasis)
+24. [Charge Prediction with Legal Attention, 2019](chargepredwithlegalattn)
