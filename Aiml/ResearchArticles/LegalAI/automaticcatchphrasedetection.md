@@ -1,4 +1,7 @@
 # Automatic Catchphrase Identification from Legal Court Case Documents
+## Tags
+
+:catchphrase:legal:
 
 ## Abstract
 

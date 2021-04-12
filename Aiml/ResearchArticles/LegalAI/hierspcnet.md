@@ -1,4 +1,7 @@
 # Hier-SPCNet: A Legal Statute Hierarchy-based Heterogeneous Network for Computing Legal Case Document Similarity
+## Tags
+
+:legal:legaldocumentsimilarity:
 
 ## Abstract
 

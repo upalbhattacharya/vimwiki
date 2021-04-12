@@ -1,5 +1,9 @@
 # Legal Judgement Prediction via Topological Learning
 
+## Tags
+
+:legaljugementprediction:legal:
+
 ## Abstract
 
 * In real-world scenarios, legal judgement usually consists of multiple subtasks, such as the decisions of applicable law articles, charges, fines and the term of penalty.

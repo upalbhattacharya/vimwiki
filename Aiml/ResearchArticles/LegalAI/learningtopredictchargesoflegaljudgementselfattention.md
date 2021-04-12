@@ -1,5 +1,9 @@
 # Learning to Predict Charges for Legal Judgement via Self-Attentive Capsule Network
 
+## Tags
+
+:legaljudgementprediction:legal:attention:capsulenetwork:
+
 ## Abstract
 
 * Devises a self-attentive dynamic routing which can:

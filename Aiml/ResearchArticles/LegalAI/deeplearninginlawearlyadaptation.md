@@ -1,5 +1,9 @@
 # Deep learning in law: early adaptation and legal word embeddings trained on large corpora
 
+## Tags
+
+:reviewpaper:
+
 ## Text classification
 
 ### O'Neill sentential modality classification in legal language

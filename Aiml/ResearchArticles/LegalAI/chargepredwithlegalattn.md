@@ -1,5 +1,9 @@
 # Charge Prediction with Legal Attention
 
+## Tags
+
+:legalchargeprediction:legal:attention:
+
 ## Abstract
 
 * Uses an attention-based relevant article extractor to improve the performance and interpretability of charge prediction.

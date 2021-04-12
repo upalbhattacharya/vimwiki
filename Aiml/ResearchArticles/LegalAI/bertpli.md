@@ -1,4 +1,8 @@
-# BERT-PLI: Modeling Paragraph-Levele Interactions for Legal Case Retrieval
+# BERT-PLI: Modeling Paragraph-Level Interactions for Legal Case Retrieval
+
+## Tags
+
+:legalcaseretrieval:bert:languagemodel:
 
 ## Abstract
 

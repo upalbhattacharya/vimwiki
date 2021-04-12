@@ -1,5 +1,9 @@
 # Learning to Predict Charges for Criminal Cases with Legal Basis
 
+## Tags
+
+:legaljudgementprediction:legal:
+
 ## Abstract
 
 * Proposes an attention-based neural network method to jointly model charge prediction and relevant article extraction in a unified framework.
