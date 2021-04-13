@@ -9,3 +9,4 @@
 * [BERT-PLI: Modeling Paragraph-Level Interactions for Legal Case Retrieval, 2020](bertpli)
 * [Learning to Predict Charges for Criminal Cases with Legal Basis, 2017](chargepredwithlegalbasis)
 * [Charge Prediction with Legal Attention, 2019](chargepredwithlegalattn)
+* [Semantic Text Matching for Long-Form Documents, 2019](smashrnn)
